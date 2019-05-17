@@ -37,10 +37,10 @@ public class AllianceSelection {
         int allSize = allOne.length - 1;
         if ((allOne[allSize] != 0)) {
             if ((allBot[allSize] != 0)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public int select(int round) {
@@ -156,6 +156,16 @@ public class AllianceSelection {
             }
             System.out.println("Alliance #" + i + ": " + allString);
         }
+    }
+
+    public void runAllianceSelection() {
+        int round = 1;
+        while (!isFinished()) {
+            round += select(round);
+            displayAlliances();
+        }
+        System.out.println("Good luck teams!");
+
     }
 
 }
