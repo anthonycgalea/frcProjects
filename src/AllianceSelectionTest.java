@@ -8,7 +8,7 @@ public class AllianceSelectionTest {
             teamlist.add(i);
         }
 
-        AllianceSelection test = new AllianceSelection(teamlist, 8, 4);
+        AllianceSelection test = new AllianceSelection(teamlist, 4, 3);
         int round = 1;
         while (test.isFinished()) {
             round += test.select(round);
@@ -17,5 +17,6 @@ public class AllianceSelectionTest {
         System.out.println("Good luck teams!");
 
     }
+
 
 }

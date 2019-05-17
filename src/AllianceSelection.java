@@ -12,6 +12,16 @@ public class AllianceSelection {
         this.scanner = new Scanner(System.in);
         this.teamsAvailable = teamList;
         this.alliances = new HashMap<Integer, int[]>();
+        if (teamsPerAlliance < 0) {
+            teamsPerAlliance*=-1;
+        }
+        if (teamsPerAlliance > teamList.size()) {
+            teamsPerAlliance = teamList.size()/2;
+        }
+        if (alliances * teamsPerAlliance > teamList.size() || alliances < 0) {
+            alliances = teamList.size()/teamsPerAlliance;
+            System.out.println("Invalid number of alliances or teamsPerAlliance. New amount of alliances is: " + alliances);
+        }
         for (int i = 1; i <= alliances; i++) {
             int[] alliance = new int[teamsPerAlliance];
             this.alliances.put(i, alliance);
@@ -140,9 +150,9 @@ public class AllianceSelection {
         System.out.println("Alliances are as follows:");
         for (int i = 1; i <= this.alliances.size(); i++) {
             int[] alliance = this.alliances.get(i);
-            String allString = "" + alliance[0];
+            String allString = "\t" + alliance[0];
             for (int j = 1; j < alliance.length; j++) {
-                allString+= ", " + alliance[j];
+                allString+= ",\t" + alliance[j];
             }
             System.out.println("Alliance #" + i + ": " + allString);
         }
