@@ -8,8 +8,10 @@ public class AllianceSelection {
     private HashMap<Integer, int[]> alliances;
     private Scanner scanner;
     private int pick;
-    public AllianceSelection(ArrayList<Integer> teamList, int alliances, int teamsPerAlliance) {
+    //private boolean iriMode;
+    public AllianceSelection(ArrayList<Integer> teamList, int alliances, int teamsPerAlliance, boolean iriMode) {
         this.scanner = new Scanner(System.in);
+        //this.iriMode = iriMode;
         this.teamsAvailable = teamList;
         this.alliances = new HashMap<Integer, int[]>();
         if (teamsPerAlliance < 0) {

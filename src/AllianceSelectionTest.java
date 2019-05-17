@@ -8,9 +8,8 @@ public class AllianceSelectionTest {
             teamlist.add(i);
         }
 
-        AllianceSelection test = new AllianceSelection(teamlist, 4, 3);
+        AllianceSelection test = new AllianceSelection(teamlist, 4, 4, false);
         test.runAllianceSelection();
     }
-
 
 }
