@@ -34,19 +34,29 @@ public class AllianceSelection {
     }
 
     public int select(int round) {
-
-        //TODO: FIX ROUNDS 2+
-        int i;
-        if (round%2 == 1) {
-            i = 1;
+        if (round%2==1) {
+            if (roundOdd(round) == true) {
+                return 0;
+            }
+            else {
+                return 1;
+            }
         }
         else {
-            i = this.alliances.size();
+            if (roundEven(round) == true) {
+                return 0;
+            }
+            else {
+                return 1;
+            }
         }
+    }
+
+    public boolean roundOdd(int round) {
+        int i = 1;
         while(true) {
-            //System.out.println("here");
             if (!this.alliances.containsKey(i)) {
-                return round++;
+                return false;
             }
             int[] allCheck = this.alliances.get(i);
             //Check for captain first
@@ -75,64 +85,8 @@ public class AllianceSelection {
                     System.out.println("Who is the #" + this.pick + " overall pick?");
                     int team = this.scanner.nextInt();
                     if (this.teamsAvailable.contains(team)) {
-                        allCheck[1] = team;
-                        this.alliances.put(i, allCheck);
-                        this.teamsAvailable.remove(this.teamsAvailable.indexOf(team));
-                        System.out.println("Congratulations, team #" + team);
                         this.pick++;
-                        break;
-                    } else {
-                        System.out.println("Invalid team.");
-                    }
-                }
-                break;
-            } else {
-
-                if (round%2 == 1) {
-                    i++;
-                } else {
-                    i--;
-                }
-            }
-        }
-
-        return round;
-    }
-/*
-    public boolean round1() {
-        int i = 1;
-        while(true) {
-            if (!this.alliances.containsKey(i)) {
-                return false;
-            }
-            int[] allCheck = this.alliances.get(i);
-            //Check for captain first
-            if (allCheck[0] == 0) {
-                while(true) {
-                    System.out.println("Teams Available:");
-                    System.out.println(this.teamsAvailable);
-                    System.out.println("Who is the #" + i + " seeded alliance captain?");
-                    int team = this.scanner.nextInt();
-                    if (this.teamsAvailable.contains(team)) {
-                        allCheck[0] = team;
-                        this.alliances.put(i, allCheck);
-                        this.teamsAvailable.remove(this.teamsAvailable.indexOf(team));
-                        System.out.println("Congratulations, team #" + team);
-                        break;
-                    } else {
-                        System.out.println("Invalid team.");
-                    }
-                }
-                break;
-            }
-            else if (allCheck[1] == 0) {
-                while(true) {
-                    System.out.println("Teams Available:");
-                    System.out.println(this.teamsAvailable);
-                    System.out.println("Who is the #" + i + " overall pick?");
-                    int team = this.scanner.nextInt();
-                    if (this.teamsAvailable.contains(team)) {
-                        allCheck[1] = team;
+                        allCheck[round] = team;
                         this.alliances.put(i, allCheck);
                         this.teamsAvailable.remove(this.teamsAvailable.indexOf(team));
                         System.out.println("Congratulations, team #" + team);
@@ -149,7 +103,7 @@ public class AllianceSelection {
         return true;
     }
 
-    public boolean round2() {
+    public boolean roundEven(int round) {
         int i = this.alliances.size();
         while(true) {
             if (!this.alliances.containsKey(i)) {
@@ -157,13 +111,14 @@ public class AllianceSelection {
             }
             int[] allCheck = this.alliances.get(i);
             //Check for if 8th seed has picked
-            if (allCheck[2] == 0) {
+            if (allCheck[round] == 0) {
                 while(true) {
                     System.out.println("Teams Available:");
                     System.out.println(this.teamsAvailable);
-                    System.out.println("Who is the #" + (17-i) + " overall pick?");
+                    System.out.println("Who is the #" + this.pick + " overall pick?");
                     int team = this.scanner.nextInt();
                     if (this.teamsAvailable.contains(team)) {
+                        this.pick++;
                         allCheck[2] = team;
                         this.alliances.put(i, allCheck);
                         this.teamsAvailable.remove(this.teamsAvailable.indexOf(team));
@@ -180,7 +135,7 @@ public class AllianceSelection {
         }
         return true;
     }
-*/
+
     public void displayAlliances() {
         System.out.println("Alliances are as follows:");
         for (int i = 1; i <= this.alliances.size(); i++) {
@@ -191,7 +146,6 @@ public class AllianceSelection {
             }
             System.out.println("Alliance #" + i + ": " + allString);
         }
-        System.out.println("Good luck teams!");
     }
 
 }
