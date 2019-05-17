@@ -7,6 +7,7 @@ public class AllianceSelection {
     private ArrayList<Integer> teamsAvailable;
     private HashMap<Integer, int[]> alliances;
     private Scanner scanner;
+    private int pick;
     public AllianceSelection(ArrayList<Integer> teamList, int alliances, int teamsPerAlliance) {
         this.scanner = new Scanner(System.in);
         this.teamsAvailable = teamList;
@@ -17,29 +18,87 @@ public class AllianceSelection {
         }
 
         System.out.println("Alliance block generated!");
-        System.out.println("Teams Available:");
-        System.out.println(this.teamsAvailable);
+        this.pick = 1;
     }
 
-    public void begin() {
-        System.out.println("Beginning Alliance Selection!");
+    public boolean isFinished() {
+        int[] allOne = this.alliances.get(1);
+        int[] allBot = this.alliances.get(this.alliances.size());
+        int allSize = allOne.length - 1;
+        if ((allOne[allSize] != 0)) {
+            if ((allBot[allSize] != 0)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int select(int round) {
+
+        //TODO: FIX ROUNDS 2+
+        int i;
+        if (round%2 == 1) {
+            i = 1;
+        }
+        else {
+            i = this.alliances.size();
+        }
         while(true) {
-            System.out.println("What team is the first alliance captain?");
-            int team = this.scanner.nextInt();
-            if (this.teamsAvailable.contains(team)) {
-                int[] alliance = alliances.get(1);
-                alliance[0] = team;
-                this.alliances.put(1, alliance);
-                this.teamsAvailable.remove(this.teamsAvailable.indexOf(team));
-                System.out.println("Congratulations, team #" + team);
+            //System.out.println("here");
+            if (!this.alliances.containsKey(i)) {
+                return round++;
+            }
+            int[] allCheck = this.alliances.get(i);
+            //Check for captain first
+            if (allCheck[0] == 0) {
+                while(true) {
+                    System.out.println("Teams Available:");
+                    System.out.println(this.teamsAvailable);
+                    System.out.println("Who is the #" + i + " seeded alliance captain?");
+                    int team = this.scanner.nextInt();
+                    if (this.teamsAvailable.contains(team)) {
+                        allCheck[0] = team;
+                        this.alliances.put(i, allCheck);
+                        this.teamsAvailable.remove(this.teamsAvailable.indexOf(team));
+                        System.out.println("Congratulations, team #" + team);
+                        break;
+                    } else {
+                        System.out.println("Invalid team.");
+                    }
+                }
+                break;
+            }
+            else if (allCheck[round] == 0) {
+                while(true) {
+                    System.out.println("Teams Available:");
+                    System.out.println(this.teamsAvailable);
+                    System.out.println("Who is the #" + this.pick + " overall pick?");
+                    int team = this.scanner.nextInt();
+                    if (this.teamsAvailable.contains(team)) {
+                        allCheck[1] = team;
+                        this.alliances.put(i, allCheck);
+                        this.teamsAvailable.remove(this.teamsAvailable.indexOf(team));
+                        System.out.println("Congratulations, team #" + team);
+                        this.pick++;
+                        break;
+                    } else {
+                        System.out.println("Invalid team.");
+                    }
+                }
                 break;
             } else {
-                System.out.println("Invalid team.");
+
+                if (round%2 == 1) {
+                    i++;
+                } else {
+                    i--;
+                }
             }
         }
 
+        return round;
     }
-
+/*
     public boolean round1() {
         int i = 1;
         while(true) {
@@ -121,7 +180,7 @@ public class AllianceSelection {
         }
         return true;
     }
-
+*/
     public void displayAlliances() {
         System.out.println("Alliances are as follows:");
         for (int i = 1; i <= this.alliances.size(); i++) {
